@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="DEBUG">
+    <Properties>
+        <Property name="someProp">${bundle:test:value}</Property>
+    </Properties>
     <Appenders>
         <Console name="LogToConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %X{value} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
+
         <File name="LogToFile" fileName="logs/app.log">
-            <JSONLayout class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter" complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" />
+            <JSONLayout class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"  complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" >
+                <KeyValuePair key="application-name" value="${someProp}"></KeyValuePair>
+            </JSONLayout>
             <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+                <Pattern>%d %p %c{1.} [%t] %m%n %X{VALUE}</Pattern>
             </PatternLayout>
         </File>
     </Appenders>
